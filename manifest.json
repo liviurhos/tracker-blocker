@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Tracker Blocker",
-  "version": "2.1.1",
-  "description": "Blocheaza pixeli de tracking (liste proprii + EasyPrivacy), curata URL-uri de fbclid/gclid/utm_*, detecteaza CNAME cloaking, reduce fingerprinting-ul si protejeaza impotriva scurgerilor WebRTC.",
+  "version": "2.1.2",
+  "description": "Blocheaza pixeli de tracking, curata URL-uri de fbclid/utm_*, detecteaza CNAME cloaking si reduce fingerprinting-ul.",
   "permissions": [
     "declarativeNetRequest",
     "storage",
