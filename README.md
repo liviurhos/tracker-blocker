@@ -46,7 +46,7 @@ Singura comunicare externa e o interogare DNS-over-HTTPS anonima catre
 Cloudflare, necesara pentru detectia CNAME cloaking.
 
 Politica completa: [docs/privacy.md](./docs/privacy.md) (versiune publicata:
-vezi GitHub Pages, dupa activare, la `https://REPO_OWNER.github.io/REPO_NAME/privacy.html`
+vezi GitHub Pages, dupa activare, la `https://liviurhos.github.io/tracker-blocker/privacy`
 sau `.../privacy` in functie de configurare).
 
 ## Actualizarea listei EasyPrivacy

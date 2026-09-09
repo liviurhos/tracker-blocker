@@ -41,4 +41,4 @@ Extensia modifica setarea browser-ului privind gestionarea adreselor IP in conex
 
 ## Contact
 
-Pentru intrebari legate de aceasta politica: [adauga aici adresa ta de email sau pagina de contact]
+Pentru intrebari legate de aceasta politica sau despre extensie: https://github.com/liviurhos/tracker-blocker/issues
