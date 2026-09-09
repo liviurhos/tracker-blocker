@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<title>Tracker Blocker</title>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    width: 280px;
+    margin: 0;
+    padding: 16px;
+    font-family: -apple-system, Segoe UI, Arial, sans-serif;
+    background: #1c1c1c;
+    color: #eaeaea;
+  }
+  h1 {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  h2 {
+    font-size: 10px;
+    font-weight: 600;
+    margin: 16px 0 4px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #888;
+  }
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #333;
+  }
+  .section:last-of-type .row:last-of-type {
+    border-bottom: none;
+  }
+  .label {
+    font-size: 12px;
+  }
+  .count {
+    font-size: 22px;
+    font-weight: 700;
+    color: #4caf50;
+  }
+  .switch {
+    position: relative;
+    width: 38px;
+    height: 21px;
+    flex-shrink: 0;
+  }
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #555;
+    transition: 0.15s;
+    border-radius: 21px;
+  }
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 15px;
+    width: 15px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.15s;
+    border-radius: 50%;
+  }
+  input:checked + .slider {
+    background-color: #4caf50;
+  }
+  input:checked + .slider:before {
+    transform: translateX(17px);
+  }
+  button {
+    width: 100%;
+    margin-top: 12px;
+    padding: 8px;
+    background: #2a2a2a;
+    border: 1px solid #444;
+    color: #eaeaea;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  button:hover {
+    background: #333;
+  }
+  .site-box {
+    margin-top: 12px;
+    padding: 10px;
+    background: #262626;
+    border: 1px solid #3a3a3a;
+    border-radius: 5px;
+  }
+  .site-name {
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    word-break: break-all;
+  }
+  .footer {
+    margin-top: 14px;
+    font-size: 10px;
+    color: #777;
+    line-height: 1.4;
+  }
+  .master-box {
+    background: #202f20;
+    border: 1px solid #3a6b3a;
+    padding: 12px;
+    margin-bottom: 14px;
+    border-radius: 6px;
+  }
+  .master-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .master-label {
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .master-switch {
+    position: relative;
+    width: 46px;
+    height: 26px;
+    flex-shrink: 0;
+  }
+  .master-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .master-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #555;
+    transition: 0.15s;
+    border-radius: 26px;
+  }
+  .master-slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.15s;
+    border-radius: 50%;
+  }
+  .master-switch input:checked + .master-slider {
+    background-color: #4caf50;
+  }
+  .master-switch input:checked + .master-slider:before {
+    transform: translateX(20px);
+  }
+</style>
+</head>
+<body>
+  <h1>Tracker Blocker</h1>
+
+  <div class="master-box">
+    <div class="master-row">
+      <span class="master-label">Blocare totala</span>
+      <label class="master-switch">
+        <input type="checkbox" id="toggleMaster">
+        <span class="master-slider"></span>
+      </label>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="row">
+      <span class="label">Blocare activa</span>
+      <label class="switch">
+        <input type="checkbox" id="toggle">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="row">
+      <span class="label">Blocate (sesiune curenta)</span>
+      <span class="count" id="count">0</span>
+    </div>
+
+    <div class="row">
+      <span class="label">Tracker deghizati (CNAME)</span>
+      <span class="count" id="cnameCount">0</span>
+    </div>
+  </div>
+
+  <h2>Protectii suplimentare</h2>
+  <div class="section">
+    <div class="row">
+      <span class="label">Anti-fingerprinting</span>
+      <label class="switch">
+        <input type="checkbox" id="toggleFingerprint">
+        <span class="slider"></span>
+      </label>
+    </div>
+    <div class="row">
+      <span class="label">Protectie WebRTC (scurgere IP)</span>
+      <label class="switch">
+        <input type="checkbox" id="toggleWebrtc">
+        <span class="slider"></span>
+      </label>
+    </div>
+    <div class="row">
+      <span class="label">Curatare cookie-uri tracker (orar)</span>
+      <label class="switch">
+        <input type="checkbox" id="toggleCleanup">
+        <span class="slider"></span>
+      </label>
+    </div>
+  </div>
+
+  <div class="site-box">
+    <div class="site-name" id="siteName">-</div>
+    <div class="row" style="border-bottom: none; padding: 4px 0;">
+      <span class="label">Dezactiveaza anti-fingerprinting aici</span>
+      <label class="switch">
+        <input type="checkbox" id="toggleSiteException">
+        <span class="slider"></span>
+      </label>
+    </div>
+  </div>
+
+  <button id="reset">Reseteaza contoarele</button>
+  <button id="openLog">Vezi jurnalul complet</button>
+
+  <div class="footer">
+    Blocheaza pixeli de tracking (liste proprii + EasyPrivacy), elimina parametri precum fbclid, gclid, msclkid, utm_* din URL-uri, detecteaza tracker deghizati prin CNAME, perturba fingerprinting-ul si reduce scurgerea de IP prin WebRTC.
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<title>Tracker Blocker - Jurnal de activitate</title>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    padding: 24px 32px 48px 32px;
+    font-family: -apple-system, Segoe UI, Arial, sans-serif;
+    background: #171717;
+    color: #eaeaea;
+    max-width: 980px;
+  }
+  h1 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 4px 0;
+  }
+  .subtitle {
+    font-size: 13px;
+    color: #999;
+    margin-bottom: 24px;
+  }
+  .stats-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .stat-card {
+    background: #222;
+    border: 1px solid #333;
+    padding: 14px 18px;
+    min-width: 140px;
+  }
+  .stat-value {
+    font-size: 26px;
+    font-weight: 700;
+    color: #4caf50;
+  }
+  .stat-label {
+    font-size: 11px;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-top: 4px;
+  }
+  .toolbar {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  input[type="text"] {
+    background: #1f1f1f;
+    border: 1px solid #3a3a3a;
+    color: #eaeaea;
+    padding: 8px 10px;
+    font-size: 13px;
+    flex: 1;
+    min-width: 200px;
+    border-radius: 5px;
+  }
+  button {
+    background: #2a2a2a;
+    border: 1px solid #444;
+    color: #eaeaea;
+    padding: 8px 14px;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  button:hover {
+    background: #333;
+  }
+  button.danger:hover {
+    background: #4a1f1f;
+    border-color: #7a3030;
+  }
+  h2 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #aaa;
+    margin: 28px 0 10px 0;
+    border-bottom: 1px solid #333;
+    padding-bottom: 8px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  th {
+    text-align: left;
+    padding: 8px 10px;
+    color: #999;
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    border-bottom: 1px solid #333;
+    cursor: pointer;
+    user-select: none;
+  }
+  th:hover {
+    color: #ccc;
+  }
+  td {
+    padding: 7px 10px;
+    border-bottom: 1px solid #262626;
+  }
+  tr:hover td {
+    background: #1f1f1f;
+  }
+  .cat {
+    display: inline-block;
+    padding: 2px 6px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    border: 1px solid #444;
+  }
+  .cat-request { color: #6fa8dc; border-color: #2b4c6f; }
+  .cat-cname { color: #e06c6c; border-color: #6f2b2b; }
+  .cat-cookie { color: #d9b25a; border-color: #6f5a2b; }
+  .empty {
+    padding: 30px 0;
+    color: #777;
+    font-size: 13px;
+    text-align: center;
+  }
+  .count-badge {
+    font-weight: 700;
+    color: #4caf50;
+  }  .credits {
+    margin-top: 40px;
+    padding-top: 14px;
+    border-top: 1px solid #2a2a2a;
+    font-size: 11px;
+    color: #666;
+  }
+  .credits a {
+    color: #888;
+  }
+</style>
+</head>
+<body>
+  <h1>Jurnal de activitate</h1>
+  <div class="subtitle">Site-uri si tracker-e detectate. Datele raman doar pe acest dispozitiv, nu sunt trimise nicaieri.</div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value" id="statSites">0</div>
+      <div class="stat-label">Site-uri cu tracking detectat</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="statTrackers">0</div>
+      <div class="stat-label">Tracker-e distincte</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="statEvents">0</div>
+      <div class="stat-label">Total incercari inregistrate</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="statCookies">0</div>
+      <div class="stat-label">Cookie-uri de tracking vazute</div>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="filterInput" placeholder="Filtreaza dupa site sau tracker...">
+    <button id="refreshBtn">Reimprospateaza</button>
+    <button id="exportBtn">Exporta JSON</button>
+    <button id="clearBtn" class="danger">Sterge tot jurnalul</button>
+  </div>
+
+  <h2>Site-uri si tracker-ele lor</h2>
+  <table id="activityTable">
+    <thead>
+      <tr>
+        <th data-sort="pageSite">Site vizitat</th>
+        <th data-sort="trackerDomain">Tracker</th>
+        <th data-sort="category">Tip</th>
+        <th data-sort="count">Aparitii</th>
+        <th data-sort="lastSeen">Ultima data</th>
+      </tr>
+    </thead>
+    <tbody id="activityBody"></tbody>
+  </table>
+  <div class="empty" id="activityEmpty" style="display:none;">Niciun tracker detectat inca.</div>
+
+  <h2>Cookie-uri de la tracker-e cunoscute</h2>
+  <table id="cookieTable">
+    <thead>
+      <tr>
+        <th data-sort="domain">Domeniu</th>
+        <th data-sort="name">Nume cookie</th>
+        <th data-sort="count">Aparitii</th>
+        <th data-sort="lastSeen">Ultima data</th>
+      </tr>
+    </thead>
+    <tbody id="cookieBody"></tbody>
+  </table>
+  <div class="empty" id="cookieEmpty" style="display:none;">Niciun cookie de tracking vazut inca.</div>
+
+  <div class="credits">
+    Cod sursa disponibil sub licenta GNU GPL v3. Include date din EasyPrivacy (The EasyList authors, easylist.to) si Public Suffix List (Mozilla, MPL-2.0).
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>
