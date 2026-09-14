@@ -1,82 +1,80 @@
 # Tracker Blocker
 
-Extensie de browser (Manifest V3 - Chrome, Edge, Brave) pentru blocarea
-tracker-elor si protectia confidentialitatii in navigare.
+*[Citeste in romana / Read in Romanian](./README.ro.md)*
 
-## Ce face
+Browser extension (Manifest V3 - Chrome, Edge, Brave) for blocking trackers
+and protecting your privacy while browsing.
 
-- Blocheaza pixeli de tracking cunoscuti: Facebook Pixel, Google Analytics,
-  Doubleclick, Bing UET, LinkedIn Insight, TikTok Pixel si altele, folosind
-  atat reguli proprii cat si lista publica **EasyPrivacy** (parte din
-  proiectul EasyList), convertita automat in format compatibil cu
-  `declarativeNetRequest`.
-- Curata automat parametri de tracking din URL-uri: `fbclid`, `gclid`,
+## What it does
+
+- Blocks known advertising and analytics tracking pixels, using both
+  built-in rules and the public **EasyPrivacy** list (part of the EasyList
+  project), automatically converted into `declarativeNetRequest` format.
+- Automatically strips tracking parameters from URLs: `fbclid`, `gclid`,
   `gclsrc`, `dclid`, `wbraid`, `gbraid`, `msclkid`, `utm_source`,
   `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`, `yclid`,
-  `igshid`, `mc_eid`, `twclid`, `ttclid` si altii.
-- Detecteaza **CNAME cloaking** (tracker-e deghizate sub un subdomeniu al
-  site-ului vizitat), folosind DNS-over-HTTPS si un calcul corect al
-  domeniului radacina, bazat pe **Public Suffix List**.
-- Reduce **fingerprinting-ul**: zgomot controlat pe canvas, WebGL,
-  AudioContext, normalizare `hardwareConcurrency`/`deviceMemory`, eliminare
-  Battery API. Cu comutator global si allowlist per site.
-- Protectie **WebRTC** impotriva scurgerii adresei IP locale.
-- Curatare periodica de cookie-uri pentru domenii de tracking cunoscute.
-- **Jurnal de activitate** local: ce site-uri au incercat sa incarce ce
-  tracker-e, si ce domenii au setat cookie-uri de tracking - pentru
-  constientizare, nu pentru colectare de date (nimic nu paraseste
-  dispozitivul).
+  `igshid`, `mc_eid`, `twclid`, `ttclid`, and others.
+- Detects **CNAME cloaking** (trackers disguised under a subdomain of the
+  site you're visiting), using DNS-over-HTTPS and a correct root-domain
+  calculation based on the **Public Suffix List**.
+- Reduces **fingerprinting**: controlled noise on canvas, WebGL,
+  AudioContext, normalized `hardwareConcurrency`/`deviceMemory`, Battery API
+  removed. With a global switch and a per-site allowlist.
+- **WebRTC** protection against local IP address leaks.
+- Periodic cookie cleanup for known tracking domains.
+- Local **activity log**: which sites tried to load which trackers, and
+  which domains set tracking cookies - for awareness, not data collection
+  (nothing ever leaves the device).
 
-## Instalare
+## Installation
 
-### Din Chrome Web Store
-[Link catre extensie](https://chromewebstore.google.com/detail/tracker-blocker/bkehmkekkpijaflkififhgnpjmmcgfcj)
+### From the Chrome Web Store
+[Extension link](https://chromewebstore.google.com/detail/tracker-blocker/bkehmkekkpijaflkififhgnpjmmcgfcj)
 
 ### Manual (Load unpacked)
-1. Descarca sau cloneaza acest repository.
-2. Deschide `chrome://extensions` (sau `edge://extensions`).
-3. Activeaza "Modul dezvoltator".
-4. Apasa "Incarca extensie neambalata" si selecteaza folderul repository-ului.
+1. Download or clone this repository.
+2. Open `chrome://extensions` (or `edge://extensions`).
+3. Enable "Developer mode".
+4. Click "Load unpacked" and select the repository folder.
 
-## Confidentialitate
+## Privacy
 
-Extensia nu colecteaza si nu trimite date catre niciun server propriu. Toate
-datele (jurnalul de activitate, setarile) raman local, in `chrome.storage.local`.
-Singura comunicare externa e o interogare DNS-over-HTTPS anonima catre
-Cloudflare, necesara pentru detectia CNAME cloaking.
+The extension does not collect or send data to any server of its own. All
+data (activity log, settings) stays local, in `chrome.storage.local`. The
+only outbound communication is an anonymous DNS-over-HTTPS query to
+Cloudflare, needed for CNAME cloaking detection.
 
-Politica completa: [docs/privacy.md](./docs/privacy.md) (versiune publicata:
-vezi GitHub Pages, dupa activare, la `https://liviurhos.github.io/tracker-blocker/privacy`
-sau `.../privacy` in functie de configurare).
+Full policy: [docs/privacy-en.md](./docs/privacy-en.md), published at
+`https://liviurhos.github.io/tracker-blocker/privacy-en`.
 
-## Actualizarea listei EasyPrivacy
+## Updating the EasyPrivacy list
 
 ```
-python3 convert_easyprivacy.py <fisiere_sursa_easyprivacy> rules-easyprivacy.json
+python3 convert_easyprivacy.py <easyprivacy_source_files> rules-easyprivacy.json
 ```
 
-Fisierele sursa se descarca din repository-ul oficial
-[easylist/easylist](https://github.com/easylist/easylist), din folderul
-`easyprivacy/`. EasyPrivacy se actualizeaza la cateva zile, deci merita
-reimprospatata periodic si republicata extensia.
+Source files can be downloaded from the official
+[easylist/easylist](https://github.com/easylist/easylist) repository, in
+the `easyprivacy/` folder. EasyPrivacy is updated every few days, so it's
+worth refreshing periodically and republishing the extension.
 
-## Licenta
+## License
 
-Cod sursa licentiat sub [GNU GPL v3](./LICENSE).
+Source code licensed under [GNU GPL v3](./LICENSE).
 
-Extensia include date derivate din EasyPrivacy (The EasyList authors,
-https://easylist.to/) si din Public Suffix List (Mozilla, MPL-2.0). Detalii
-complete in [ATTRIBUTIONS.md](./ATTRIBUTIONS.md).
+The extension includes data derived from EasyPrivacy (The EasyList authors,
+https://easylist.to/) and from the Public Suffix List (Mozilla, MPL-2.0).
+Full details in [ATTRIBUTIONS.md](./ATTRIBUTIONS.md).
 
-## Limitari cunoscute
+## Known limitations
 
-Aceasta extensie ofera o protectie rezonabila, nu una completa:
+This extension provides reasonable protection, not complete protection:
 
-- Detectia CNAME cloaking are o fereastra de expunere la prima cerere catre
-  un subdomeniu nou.
-- Lista de tracker-e e statica intre versiuni; se invechieste daca nu e
-  reimprospatata.
-- Protectia de fingerprinting poate fi detectata si, teoretic, ocolita de
-  scripturi dedicate.
-- Nu acopera tracking server-side (site -> server propriu -> tracker) si nu
-  atinge evercookies stocate in moduri neconventionale.
+- CNAME cloaking detection has a window of exposure on the first request to
+  a new subdomain.
+- The tracker list is static between versions; it goes stale if not
+  refreshed.
+- Fingerprinting protection can be detected and, in theory, worked around
+  by dedicated scripts.
+- Does not cover server-side tracking (site -> own server -> tracker) and
+  does not touch evercookies stored in unconventional ways.
