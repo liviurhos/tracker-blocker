@@ -30,7 +30,7 @@ tracker-elor si protectia confidentialitatii in navigare.
 ## Instalare
 
 ### Din Chrome Web Store
-[Link catre extensie](#) *(de completat dupa publicare)*
+[Link catre extensie](https://chromewebstore.google.com/detail/tracker-blocker/bkehmkekkpijaflkififhgnpjmmcgfcj)
 
 ### Manual (Load unpacked)
 1. Descarca sau cloneaza acest repository.
